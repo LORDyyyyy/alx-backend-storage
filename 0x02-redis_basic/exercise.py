@@ -6,15 +6,15 @@ from typing import Union, Optional, Callable
 from functools import wraps
 
 
-def count_calls(func: Callable) -> Callable:
+def count_calls(method: Callable) -> Callable:
     """ stores the count of calling the Cache class's methods """
-    key = func.__qualname__
+    key = method.__qualname__
 
-    @wraps(func)
+    @wraps(method)
     def wrapper(self, *args, **kwargs):
         self._redis.incr(key)
 
-        return func(self, *args, **kwargs)
+        return method(self, *args, **kwargs)
     return wrapper
 
 
