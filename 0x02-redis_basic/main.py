@@ -12,7 +12,7 @@ import redis
 # key = cache.store(data)
 # print(key)
 
-# local_redis = redis.Redis()
+local_redis = redis.Redis()
 # print(local_redis.get(key))
 
 
@@ -33,6 +33,7 @@ import redis
 """ Main file """
 
 Cache = __import__('exercise').Cache
+replay = __import__('exercise').replay
 
 cache = Cache()
 
@@ -42,8 +43,8 @@ s2 = cache.store("secont")
 print(s2)
 s3 = cache.store("third")
 print(s3)
-s4 = cache.store("third")
-print(s4)
+
+
 inputs = cache._redis.lrange("{}:inputs".format(cache.store.__qualname__), 0, -1)
 outputs = cache._redis.lrange("{}:outputs".format(cache.store.__qualname__), 0, -1)
 
@@ -51,3 +52,10 @@ print(cache.store.__qualname__)
 
 print("inputs: {}".format(inputs))
 print("outputs: {}".format(outputs))
+
+print('\n\n\n\n')
+
+replay(cache.store)
+
+print(cache.store.__qualname__)
+print(local_redis.get(cache.store.__qualname__))
